@@ -1,17 +1,20 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import connectToDB from '@/lib/db'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'UniResume',
+  description: 'UniResume - The best way to share your resume',
+  generator: 'UniResume',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
+  await connectToDB();
   return (
     <html lang="en">
       <body>{children}</body>

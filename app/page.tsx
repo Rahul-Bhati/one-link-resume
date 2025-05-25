@@ -1,9 +1,15 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BarChart3, CloudIcon as CloudSync, Clock, Eye, Link2, Lock, Upload } from "lucide-react"
-import SignIn from "@/components/sign-in"
+import HeroSection from "@/components/HeroSection"
+import { getServerSession } from "next-auth"
+import Image from "next/image"
+import SignOut from "@/components/sign-out"
+// import SignIn from "@/components/sign-in"
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const session = await getServerSession();
+  console.log("session => ", session);
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -27,66 +33,31 @@ export default function LandingPage() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            {/* <button href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              
-              Log in
-            </Link> */}
-            <SignIn />
-            <Button>Sign up</Button>
+            {session ? (
+              <div className="cursor-pointer" >
+                <Image src={session.user?.image as string} alt={session.user?.name as string} width={40} height={40} className="rounded-full" />
+                {/* Logout Button (Hidden by Default) */}
+                <div
+                  className="absolute left-0 w-full text-center bg-white border rounded-md 
+               opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <SignOut />
+                </div>
+              </div>
+            ) : (
+              <>
+                <Link href="/api/auth/signin" className="text-sm font-medium hover:underline underline-offset-4">
+                  Log in
+                </Link>
+                {/* <SignIn /> */}
+                <Button>Sign up</Button>
+              </>
+            )}
           </div>
         </div>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-background to-muted">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    One Link.
-                    <br />
-                    Infinite Updates.
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Stop resending your resume. Share a single smart link that always stays fresh.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="bg-primary text-primary-foreground">
-                    Create Your Link
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                  <Button size="lg" variant="outline">
-                    Learn More
-                  </Button>
-                </div>
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="relative w-full max-w-[500px] aspect-video overflow-hidden rounded-xl border bg-background shadow-xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 p-8 flex flex-col justify-center">
-                    <div className="bg-background rounded-lg p-4 shadow-lg max-w-[300px] mx-auto">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Link2 className="h-4 w-4 text-primary" />
-                        <span className="text-sm font-medium">unilink.app/yourname</span>
-                      </div>
-                      <div className="h-32 bg-muted rounded-md flex items-center justify-center">
-                        <p className="text-xs text-center text-muted-foreground">
-                          Your latest resume is always available here
-                        </p>
-                      </div>
-                      <div className="mt-2 flex justify-between items-center">
-                        <span className="text-xs text-muted-foreground">Updated 2 hours ago</span>
-                        <Button variant="ghost" size="sm" className="h-6 text-xs">
-                          View
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <HeroSection />
 
         <section id="features" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">

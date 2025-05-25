@@ -12,9 +12,13 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String,
         required: false
+    },
+    password: {
+        type: String,
+        required: false
     }
 })
 
-const UserModel = mongoose.models.User ?? mongoose.model("User", userSchema)
+const User = mongoose.models.User ?? mongoose.model("User", userSchema)
 
-export default UserModel;
+export default User;
