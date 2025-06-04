@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -13,11 +14,10 @@ const HeroSection = () => {
               Stop resending your resume. Share a single smart link that always stays fresh.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start" data-id="x61eg1qkh" data-path="src/components/HeroSection.tsx">
-              <Button
+              <Link href={"/dashboard"}
                 className="text-white bg-indigo-600 hover:bg-indigo-700 px-8 py-6 h-auto text-lg">
-
                 Create Your Link
-              </Button>
+              </Link>
               <Button
                 variant="outline"
                 className="px-8 py-6 h-auto text-lg border-indigo-200 hover:bg-indigo-50 text-indigo-600">

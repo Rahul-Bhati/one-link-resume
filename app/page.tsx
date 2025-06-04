@@ -37,10 +37,7 @@ export default async function LandingPage() {
               <div className="cursor-pointer" >
                 <Image src={session.user?.image as string} alt={session.user?.name as string} width={40} height={40} className="rounded-full" />
                 {/* Logout Button (Hidden by Default) */}
-                <div
-                  className="absolute left-0 w-full text-center bg-white border rounded-md 
-               opacity-0 group-hover:opacity-100 transition-opacity"
-                >
+                <div className="absolute left-0 w-full text-center bg-white border rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                   <SignOut />
                 </div>
               </div>
@@ -58,6 +55,15 @@ export default async function LandingPage() {
       </header>
       <main className="flex-1">
         <HeroSection />
+
+        {/* <iframe
+          src="./Rahul_Bhati.pdf"
+          frameBorder="0"
+          scrolling="auto"
+          height="100%"
+          width="100%"
+        ></iframe> */}
+
 
         <section id="features" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
