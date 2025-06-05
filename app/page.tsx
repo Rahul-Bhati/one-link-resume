@@ -1,619 +1,190 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, BarChart3, CloudIcon as CloudSync, Clock, Eye, Link2, Lock, Upload } from "lucide-react"
-import HeroSection from "@/components/HeroSection"
-import { getServerSession } from "next-auth"
+import { Card, CardContent } from "@/components/ui/card"
+import { ArrowRight, FileText, RefreshCw, BarChart3, Upload, Users, Star, Link2 } from "lucide-react"
+import NextLink from "next/link"
 import Image from "next/image"
-import SignOut from "@/components/sign-out"
-// import SignIn from "@/components/sign-in"
+import ResumeCard from "@/components/ResumeCard"
+import TestimonialCard from "@/components/TestimonialCard"
+import Footer from "@/components/Footer"
 
-export default async function LandingPage() {
-  const session = await getServerSession();
-  console.log("session => ", session);
+export default function LandingPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <Link2 className="h-5 w-5 text-primary" />
-            <span>UniLink</span>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Header */}
+      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+              <NextLink className="w-5 h-5 text-white" href="/" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              LinkDoc
+            </span>
           </div>
-          <nav className="hidden md:flex gap-6">
-            <Link href="#features" className="text-sm font-medium hover:text-primary">
-              Features
-            </Link>
-            <Link href="#how-it-works" className="text-sm font-medium hover:text-primary">
-              How It Works
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
-              Testimonials
-            </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:text-primary">
-              Pricing
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            {session ? (
-              <div className="cursor-pointer" >
-                <Image src={session.user?.image as string} alt={session.user?.name as string} width={40} height={40} className="rounded-full" />
-                {/* Logout Button (Hidden by Default) */}
-                <div className="absolute left-0 w-full text-center bg-white border rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                  <SignOut />
-                </div>
-              </div>
-            ) : (
-              <>
-                <Link href="/api/auth/signin" className="text-sm font-medium hover:underline underline-offset-4">
-                  Log in
-                </Link>
-                {/* <SignIn /> */}
-                <Button>Sign up</Button>
-              </>
-            )}
+          <div className="flex items-center space-x-4">
+            <NextLink href="/login">
+              <Button variant="ghost" className="hover:bg-blue-50">
+                Login
+              </Button>
+            </NextLink>
+            <NextLink href="/signup">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                Get Started
+              </Button>
+            </NextLink>
           </div>
         </div>
       </header>
-      <main className="flex-1">
-        <HeroSection />
 
-        {/* <iframe
-          src="./Rahul_Bhati.pdf"
-          frameBorder="0"
-          scrolling="auto"
-          height="100%"
-          width="100%"
-        ></iframe> */}
-
-
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">Features</div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Everything you need in one link</h2>
-                <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                  UniLink provides all the tools you need to share your professional profile effectively.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-              <div className="flex flex-col items-start space-y-4 rounded-lg border p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <Link2 className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Single Link, Always Up-to-Date</h3>
-                <p className="text-muted-foreground">
-                  Automatically reflects the latest uploaded resume or portfolio, no need to resend.
-                </p>
-              </div>
-              <div className="flex flex-col items-start space-y-4 rounded-lg border p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <Link2 className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Customizable Personal URLs</h3>
-                <p className="text-muted-foreground">
-                  Create your own branded link that's easy to remember and share: unilink.app/yourname.
-                </p>
-              </div>
-              <div className="flex flex-col items-start space-y-4 rounded-lg border p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <BarChart3 className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Analytics</h3>
-                <p className="text-muted-foreground">
-                  See how many views your resume got and from where. Track engagement with your profile.
-                </p>
-              </div>
-              <div className="flex flex-col items-start space-y-4 rounded-lg border p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <Lock className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Access Control</h3>
-                <p className="text-muted-foreground">
-                  Make your resume public, private, or password-protected based on your needs.
-                </p>
-              </div>
-              <div className="flex flex-col items-start space-y-4 rounded-lg border p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <CloudSync className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Cloud Sync</h3>
-                <p className="text-muted-foreground">
-                  Update via Google Drive, Dropbox, or upload manually for seamless integration.
-                </p>
-              </div>
-              <div className="flex flex-col items-start space-y-4 rounded-lg border p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <Clock className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Version History</h3>
-                <p className="text-muted-foreground">
-                  Access or revert to previous versions of your resume whenever needed.
-                </p>
-              </div>
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4">
+        <div className="container mx-auto text-center">
+          <div className="animate-fade-in-up">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent leading-tight">
+              Share One Link,
+              <br />
+              Update Anytime
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Tired of updating resume links on every platform? Upload once, share a single link, and update anytime
+              without changing the URL.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <NextLink href="/signup">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg group"
+                >
+                  Get Started Free
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </NextLink>
+              <NextLink href="/demo">
+                <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-2 hover:bg-blue-50">
+                  View Demo
+                </Button>
+              </NextLink>
             </div>
           </div>
-        </section>
 
-        <section id="how-it-works" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">How It Works</div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Simple as 1-2-3</h2>
-                <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                  Get started with UniLink in just three easy steps.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-3">
-              <div className="flex flex-col items-center space-y-4 rounded-lg p-6 text-center">
-                <div className="rounded-full bg-primary/10 p-4">
-                  <Upload className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">1. Upload your resume</h3>
-                <p className="text-muted-foreground">
-                  Upload your resume or portfolio directly or connect to cloud storage.
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-4 rounded-lg p-6 text-center">
-                <div className="rounded-full bg-primary/10 p-4">
-                  <Link2 className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">2. Get your personal link</h3>
-                <p className="text-muted-foreground">
-                  Customize your unique URL that will always point to your latest document.
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-4 rounded-lg p-6 text-center">
-                <div className="rounded-full bg-primary/10 p-4">
-                  <Eye className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">3. Share it anywhere</h3>
-                <p className="text-muted-foreground">
-                  Add your link to LinkedIn, Twitter, email signatures, or anywhere else.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">Testimonials</div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Loved by students and professionals</h2>
-                <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                  See what our users have to say about UniLink.
-                </p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-              <div className="flex flex-col justify-between space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <div className="flex space-x-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="#4F46E5"
-                        stroke="none"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground">
-                    "I stopped worrying about sending the wrong resume. UniLink just works."
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="rounded-full bg-muted h-10 w-10 flex items-center justify-center">
-                    <span className="font-medium text-sm">A</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Aayush</p>
-                    <p className="text-xs text-muted-foreground">IIT Delhi</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col justify-between space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <div className="flex space-x-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="#4F46E5"
-                        stroke="none"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground">
-                    "The analytics feature helped me understand which companies were viewing my resume."
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="rounded-full bg-muted h-10 w-10 flex items-center justify-center">
-                    <span className="font-medium text-sm">S</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Sarah</p>
-                    <p className="text-xs text-muted-foreground">Stanford University</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col justify-between space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <div className="flex space-x-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="#4F46E5"
-                        stroke="none"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground">
-                    "Version history saved me when I accidentally updated with the wrong file."
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="rounded-full bg-muted h-10 w-10 flex items-center justify-center">
-                    <span className="font-medium text-sm">M</span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Miguel</p>
-                    <p className="text-xs text-muted-foreground">UC Berkeley</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Hero Visual */}
+      <ResumeCard />
 
-        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">Pricing</div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">Simple, transparent pricing</h2>
-                <p className="max-w-[700px] text-muted-foreground md:text-xl">Choose the plan that's right for you.</p>
-              </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2">
-              <div className="flex flex-col space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold">Free</h3>
-                  <p className="text-muted-foreground">Perfect for getting started</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-4xl font-bold">$0</div>
-                  <p className="text-muted-foreground">Forever free</p>
-                </div>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    1 custom link
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Basic analytics
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Cloud storage integration
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Last 5 versions history
-                  </li>
-                </ul>
-                <Button className="w-full">Get Started</Button>
-              </div>
-              <div className="relative flex flex-col space-y-4 rounded-lg border border-primary p-6">
-                <div className="absolute -top-3 right-4 rounded-full bg-primary px-3 py-1 text-xs text-primary-foreground">
-                  Popular
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold">Pro</h3>
-                  <p className="text-muted-foreground">For professionals and job seekers</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-4xl font-bold">$5</div>
-                  <p className="text-muted-foreground">per month</p>
-                </div>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Unlimited custom links
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Advanced analytics
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Password protection
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Unlimited version history
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="mr-2 h-4 w-4 text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Priority support
-                  </li>
-                </ul>
-                <Button className="w-full">Upgrade to Pro</Button>
-              </div>
-            </div>
+      {/* Features Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Why Choose LinkDoc?</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Simplify your document sharing with powerful features designed for modern professionals.
+            </p>
           </div>
-        </section>
 
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
-                    Get Started
-                  </div>
-                  <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
-                    Ready to simplify your resume sharing?
-                  </h2>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Join thousands of students and professionals who have streamlined their job application process with
-                    UniLink.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="bg-primary text-primary-foreground">
-                    Create Your Link
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                  <Button size="lg" variant="outline">
-                    See Demo
-                  </Button>
-                </div>
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="rounded-lg border bg-muted p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <Link2 className="h-5 w-5 text-primary" />
-                      <span className="font-medium">unilink.app/yourname</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Eye className="h-4 w-4" />
-                      <span>214 views</span>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-4 w-3/4 bg-background rounded"></div>
-                    <div className="h-4 w-full bg-background rounded"></div>
-                    <div className="h-4 w-5/6 bg-background rounded"></div>
-                    <div className="h-4 w-full bg-background rounded"></div>
-                  </div>
-                  <div className="mt-6 flex justify-between items-center">
-                    <div className="text-sm text-muted-foreground">Last updated: Today</div>
-                    <div className="text-sm text-primary">17 clicks last week</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="w-full border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <div className="flex items-center gap-2 font-bold">
-            <Link2 className="h-5 w-5 text-primary" />
-            <span>UniLink</span>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-            <Link href="#" className="text-xs md:text-sm text-muted-foreground hover:underline underline-offset-4">
-              Terms
-            </Link>
-            <Link href="#" className="text-xs md:text-sm text-muted-foreground hover:underline underline-offset-4">
-              Privacy
-            </Link>
-            <Link href="#" className="text-xs md:text-sm text-muted-foreground hover:underline underline-offset-4">
-              Contact
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="#" className="text-muted-foreground hover:text-foreground">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: Link2,
+                title: "Single Link Sharing",
+                description: "One permanent link for your resume or portfolio that never changes.",
+                color: "blue",
+              },
+              {
+                icon: RefreshCw,
+                title: "Auto-Updates",
+                description: "Update your document anytime while keeping the same shareable link.",
+                color: "green",
+              },
+              {
+                icon: BarChart3,
+                title: "View Analytics",
+                description: "Track who views your document with detailed analytics and insights.",
+                color: "purple",
+              },
+              {
+                icon: Upload,
+                title: "Easy Upload",
+                description: "Drag-and-drop your PDF files in seconds with our intuitive interface.",
+                color: "orange",
+              },
+            ].map((feature, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg"
               >
-                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-              </svg>
-              <span className="sr-only">Twitter</span>
-            </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
-              >
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect width="4" height="12" x="2" y="9"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-              <span className="sr-only">LinkedIn</span>
-            </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
-              >
-                <path d="M12 2H2v10h10V2zM12 12H2v10h10V12zM22 2h-10v20h10V2z"></path>
-              </svg>
-              <span className="sr-only">GitHub</span>
-            </Link>
+                <CardContent className="p-8 text-center">
+                  <div
+                    className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-${feature.color}-100 flex items-center justify-center group-hover:scale-110 transition-transform`}
+                  >
+                    <feature.icon className={`w-8 h-8 text-${feature.color}-600`} href={"/"} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
-        <div className="container mt-4 text-center text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} UniLink. All rights reserved. Contact: demo@unilink.app</p>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Loved by Professionals</h2>
+            <p className="text-xl text-gray-600">See what our users are saying about LinkDoc</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Sarah Johnson",
+                role: "Software Engineer",
+                content:
+                  "LinkDoc saved me hours of updating resume links across different platforms. One link, infinite updates!",
+                avatar: "/placeholder.svg?height=60&width=60",
+              },
+              {
+                name: "Michael Chen",
+                role: "Product Designer",
+                content:
+                  "The analytics feature helps me understand which companies are viewing my portfolio. Game changer!",
+                avatar: "/placeholder.svg?height=60&width=60",
+              },
+              {
+                name: "Emily Rodriguez",
+                role: "Marketing Manager",
+                content: "Clean interface, reliable service. I recommend LinkDoc to all my job-seeking friends.",
+                avatar: "/placeholder.svg?height=60&width=60",
+              },
+            ].map((testimonial, index) => (
+              <TestimonialCard key={index} testimonial={testimonial} />
+            ))}
+          </div>
         </div>
-      </footer>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Simplify Your Document Sharing?</h2>
+          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+            Join thousands of professionals who trust LinkDoc for their document sharing needs.
+          </p>
+          <NextLink href="/signup">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
+              Start Free Today
+            </Button>
+          </NextLink>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <Footer />
+      
     </div>
   )
 }
