@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false, // Set to false to allow Google sign-in users without passwords
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Pre-save hook to hash password
